@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terrain
+  - Frozen Pea
+  - Pea
+  - Sun
+  - Player_Pea
   layers:
   - Default
   - TransparentFX
