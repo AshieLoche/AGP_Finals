@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3430895424573806139}
   m_Layer: 0
-  m_Name: Pea Spawn Marker
+  m_Name: Bullet Spawn Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
