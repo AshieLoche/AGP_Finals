@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class PlayerAim : MonoBehaviour
 {
@@ -9,9 +11,10 @@ public class PlayerAim : MonoBehaviour
 
     #region Component Attributes
     [Header("Components")]
-    [SerializeField] private Transform _sun;
     [SerializeField] private Transform _aim;
     [SerializeField] private Renderer _indicator;
+
+    private Material _indicatorMat;
     #endregion
 
     #region Aim Attributes
@@ -25,13 +28,13 @@ public class PlayerAim : MonoBehaviour
     [SerializeField] private float _minPos;
     [SerializeField] private float _maxPos;
 
-    private Vector3 _curPos;
+    private float _curPos, _pos;
 
     [Header("Aim Scale")]
     [SerializeField] private float _minScale;
     [SerializeField] private float _maxScale;
     
-    private Vector3 _curScale;
+    private float _curScale, _scale;
 
     [Header("Aim Rotation")]
     [SerializeField] private float _minRotSpeed;
@@ -52,7 +55,7 @@ public class PlayerAim : MonoBehaviour
     #endregion
 
     #region Event Attributes
-    public static UnityEvent<Transform, Vector3> OnFireEvent = new();
+    public static UnityEvent<Vector3, float, float, Color> OnFireEvent = new();
     #endregion
 
     #endregion
@@ -62,16 +65,16 @@ public class PlayerAim : MonoBehaviour
     #region Native Method Definition
     private void Awake()
     {
-        InputReader.OnAimEvent.AddListener(HandleAim);
-        InputReader.OnAimCancelEvent.AddListener(HandleAimCancel);
-        InputReader.OnFireEvent.AddListener(HandleFire);
+        InputManager.OnAimEvent.AddListener(HandleAim);
+        InputManager.OnAimCancelEvent.AddListener(HandleAimCancel);
+        InputManager.OnFireEvent.AddListener(HandleFire);
     }
 
     private void Start()
     {
-        _curPos = new Vector3(0f, 0.5f, _minPos /*150f*/);
-        _curScale = Vector3.one;
-        _curRotSpeed = _curEmissionIntensity = 1f;
+        _indicatorMat = _indicator.material;
+        _curPos = _minPos;
+        _curScale = _curRotSpeed = _curEmissionIntensity = 1f;
     }
 
     private void FixedUpdate()
@@ -95,8 +98,7 @@ public class PlayerAim : MonoBehaviour
 
     private void HandleFire()
     {
-        OnFireEvent.Invoke(_sun, _aim.position);
-        Debug.Log("Yippie");
+        OnFireEvent.Invoke(_aim.position, _scale, _rotSpeed, _emissionColor);
     }
     #endregion
 
@@ -105,8 +107,8 @@ public class PlayerAim : MonoBehaviour
     {
         _aimTimer = 0f;
         _aimProgress = 0f;
-        _curPos = _aim.localPosition;
-        _curScale = _aim.localScale;
+        _curPos = _pos;
+        _curScale = _scale;
         _curRotSpeed = _rotSpeed;
         _curEmissionIntensity = _emissionIntensity;
         _isAiming = status;
@@ -117,35 +119,31 @@ public class PlayerAim : MonoBehaviour
         _aimTimer += Time.deltaTime;
         _aimProgress = Mathf.Clamp01(_aimTimer / _aimTime);
 
-        _aim.localPosition = Vector3.Lerp(
+        _pos = Mathf.Lerp(
             _curPos,
-            new Vector3(0f, 0.5f, (_isAiming) ? _maxPos /*450f*/ : _minPos /*150f*/),
+            (_isAiming) ? _maxPos /*450f*/ : _minPos /*150f*/,
             _aimProgress);
+        _aim.localPosition = new Vector3(0f, 0.5f, _pos);
 
-        _aim.localScale = Vector3.Lerp(
+        _scale = Mathf.Lerp(
             _curScale,
-            Vector3.one * ((_isAiming) ? _minScale /*0.25f*/ : _maxScale /*1f*/),
+            (_isAiming) ? _minScale /*0.25f*/ : _maxScale /*1f*/,
             _aimProgress);
+        _aim.localScale = Vector3.one * _scale;
 
         _rotSpeed = Mathf.Lerp(
             _curRotSpeed,
             (_isAiming) ? _maxRotSpeed /*10f*/ : _minRotSpeed /*1f*/,
             _aimProgress);
         _aim.localRotation *= Quaternion.Euler(0f, 0f, _rotSpeed);
-        _sun.GetChild(0).rotation = Quaternion.identity;
-        _sun.GetChild(0).GetComponent<Animator>().speed = _rotSpeed;
 
         _emissionIntensity = Mathf.Lerp(
             _curEmissionIntensity,
             (_isAiming) ? _maxEmissionIntensity /*8f*/ : _minEmissionIntensity /*1f*/,
             _aimProgress);
-        _indicator.material.SetColor("_EmissionColor", Color.white * _emissionIntensity);
-        _indicator.material.EnableKeyword("_EMISSION");
-        _sun.GetChild(0).GetComponentsInChildren<Renderer>().ToList().ForEach(renderer =>
-        {
-            renderer.material.SetColor("_EmissionColor", Color.white * _emissionIntensity);
-            renderer.material.EnableKeyword("_EMISSION");
-        });
+        _emissionColor = Color.white * _emissionIntensity;
+        _indicatorMat.SetColor("_EmissionColor", _emissionColor);
+        _indicatorMat.EnableKeyword("_EMISSION");
     }
     #endregion
 

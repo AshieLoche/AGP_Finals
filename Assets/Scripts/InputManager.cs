@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputReader : MonoBehaviour, GameInputs.IGameplayActions
+public class InputManager : MonoBehaviour, GameInputs.IGameplayActions
 {
 
     #region Attribute Declaration

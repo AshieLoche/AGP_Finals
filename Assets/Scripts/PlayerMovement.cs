@@ -34,8 +34,8 @@ public class PlayerMovement : MonoBehaviour
     #region Native Method Definition
     private void Awake()
     {
-        InputReader.OnMoveEvent.AddListener(HandleMove);
-        InputReader.OnRotateEvent.AddListener(HandleRotation);
+        InputManager.OnMoveEvent.AddListener(HandleMove);
+        InputManager.OnRotateEvent.AddListener(HandleRotation);
     }
 
     private void Start()
