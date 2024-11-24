@@ -15,12 +15,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Charge",
+                    "name": "Rotate",
+                    "type": "PassThrough",
+                    "id": "c649dbbb-0ba5-4d2f-87f3-e88c147f3345",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
                     "type": "Button",
                     "id": "009bd20a-114d-4e88-a22d-14ceedf64d4c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -28,15 +37,6 @@
                     "type": "Button",
                     "id": "4256179c-3154-4921-99da-062fbdc5eaa2",
                     "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press,Hold",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Rotate",
-                    "type": "PassThrough",
-                    "id": "c649dbbb-0ba5-4d2f-87f3-e88c147f3345",
-                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -105,7 +105,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Charge",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -125,7 +125,7 @@
                     "id": "e569d240-76e4-4000-98ef-bbb9a34529c0",
                     "path": "<Pointer>/delta",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Rotate",
                     "isComposite": false,

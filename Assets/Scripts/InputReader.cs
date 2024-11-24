@@ -5,11 +5,25 @@ using UnityEngine.InputSystem;
 public class InputReader : MonoBehaviour, GameInputs.IGameplayActions
 {
 
+    #region Attribute Declaration
+
+    #region Script Attributes
     private GameInputs _gameInputs;
-    
+    #endregion
 
+    #region Event Attrbiutes
+    public static UnityEvent OnAimEvent = new();
+    public static UnityEvent OnFireEvent = new();
+    public static UnityEvent OnAimCancelEvent = new();
     public static UnityEvent<Vector2> OnMoveEvent = new();
+    public static UnityEvent<Vector2> OnRotateEvent = new();
+    #endregion
 
+    #endregion
+
+    #region Method Definition
+
+    #region Native Method Definition
     private void OnEnable()
     {
         if (_gameInputs == null)
@@ -19,26 +33,34 @@ public class InputReader : MonoBehaviour, GameInputs.IGameplayActions
             _gameInputs.Gameplay.Enable();
         }
     }
+    #endregion
 
-    public void OnCharge(InputAction.CallbackContext context)
+    #region Interface Method Definition
+    public void OnAim(InputAction.CallbackContext context)
     {
-        //throw new System.NotImplementedException();
+        if (context.phase == InputActionPhase.Started)
+            OnAimEvent.Invoke();
+        else if (context.phase == InputActionPhase.Canceled)
+            OnAimCancelEvent.Invoke();
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        //throw new System.NotImplementedException();
+        if (context.phase == InputActionPhase.Started)
+            OnFireEvent.Invoke();
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         OnMoveEvent.Invoke(context.ReadValue<Vector2>());
-        Debug.Log("YIPPIE");
     }
 
     public void OnRotate(InputAction.CallbackContext context)
     {
-        //throw new System.NotImplementedException();
+        OnRotateEvent.Invoke(context.ReadValue<Vector2>());
     }
+    #endregion
+
+    #endregion
 
 }
