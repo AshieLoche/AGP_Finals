@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody _playerRB;
     #endregion
 
+    #region Movement Attributes
+
     #region Directional Movement Attributes
     [Header("Directional Movement")]
     [SerializeField] private float _moveDistancce;
@@ -29,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    #endregion
+
     #region Method Definition
 
     #region Native Method Definition
@@ -41,7 +45,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Cursor.visible = false;
-        _playerRB = GetComponent<Rigidbody>();
+        if (_playerRB == null)
+            _playerRB = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()

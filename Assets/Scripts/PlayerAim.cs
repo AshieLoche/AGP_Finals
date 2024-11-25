@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class PlayerAim : MonoBehaviour
 {
@@ -10,10 +8,9 @@ public class PlayerAim : MonoBehaviour
     #region Attribute Declaration
 
     #region Component Attributes
-    [Header("Components")]
-    [SerializeField] private Transform _aim;
-    [SerializeField] private Renderer _indicator;
 
+    private Transform _target, _aim, _aimFlipped, _indicator;
+    private Renderer _indicatorRenderer;
     private Material _indicatorMat;
     #endregion
 
@@ -72,9 +69,44 @@ public class PlayerAim : MonoBehaviour
 
     private void Start()
     {
-        _indicatorMat = _indicator.material;
         _curPos = _minPos;
         _curScale = _curRotSpeed = _curEmissionIntensity = 1f;
+
+        _target = transform.GetComponentsInChildren<Transform>().FirstOrDefault(child => child.name == "Target");
+
+        _target.GetComponentsInChildren<Transform>().ToList().ForEach(child =>
+        {
+            if (child.name == "Aim")
+                _aim = child;
+            else if (child.name == "Aim Flipped")
+                _aimFlipped = child;
+            else if (child.name == "Indicator")
+                _indicator = child;
+        });
+
+        foreach (Transform child in transform.GetComponentsInChildren<Transform>())
+        {
+            if (child.name == "Target")
+            {
+                _target = child;
+                break;
+            }
+        }
+
+
+        foreach (Transform child in _target.GetComponentsInChildren<Transform>())
+        {
+            if (child.name == "Aim")
+                _aim = child;
+            else if (child.name == "Aim Flipped")
+                _aimFlipped = child;
+            else if (child.name == "Indicator")
+                _indicator = child;
+        }
+
+        _indicatorRenderer = _indicator.GetComponent<Renderer>();
+
+        _indicatorMat = _indicatorRenderer.material;
     }
 
     private void FixedUpdate()
