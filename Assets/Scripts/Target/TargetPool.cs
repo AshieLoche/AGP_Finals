@@ -22,10 +22,11 @@ public class TargetPool : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < poolAmount; i++)
+        for (int i = 1; i <= poolAmount; i++)
         {
             _targetClone = Instantiate(_aimPrefab, transform);
             _targetClone.SetActive(false);
+            _targetClone.name = $"Target {i}";
             _targetPool.Add(_targetClone);
         }
     }

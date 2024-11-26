@@ -18,4 +18,12 @@ public class PhysicsCalculationManager : MonoBehaviour
         return target - origin;
     }
 
+    public float GetMagnitude(Vector3 vector)
+    {
+        return Mathf.Sqrt(
+            (vector.x * vector.x) +
+            (vector.y * vector.y) +
+            (vector.z * vector.z));
+    }
+
 }

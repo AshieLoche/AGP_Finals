@@ -22,10 +22,11 @@ public class SunPool : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < poolAmount; i++)
+        for (int i = 1; i <= poolAmount; i++)
         {
             _sunClone = Instantiate(_sunPrefab, transform);
             _sunClone.SetActive(false);
+            _sunClone.name = $"Sun {i}";
             _sunPool.Add(_sunClone);
         }
     }

@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 9114208734845916311}
   - component: {fileID: 2107351741641002568}
   - component: {fileID: 393559754097239007}
-  - component: {fileID: 3093480037088749425}
+  - component: {fileID: -9142777242690673953}
+  - component: {fileID: 2556678959021402071}
   m_Layer: 0
   m_Name: Sun
-  m_TagString: Untagged
+  m_TagString: Sun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6040390089420627889}
@@ -83,7 +84,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &3093480037088749425
+--- !u!114 &-9142777242690673953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,6 +94,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db3c60cc8329ed8449006f44c03aad37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gravityMultiplier: 100
+--- !u!114 &2556678959021402071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4099162518272643664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0173c75f95e24404290f93b1996f1b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6078029587714521178
@@ -106,17 +120,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cd7a25518fe64ac4b883883bdb374955,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7a25518fe64ac4b883883bdb374955,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7a25518fe64ac4b883883bdb374955,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.25
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cd7a25518fe64ac4b883883bdb374955,
         type: 3}

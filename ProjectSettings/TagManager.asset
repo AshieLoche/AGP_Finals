@@ -8,7 +8,11 @@ TagManager:
   - Frozen Pea
   - Pea
   - Sun
-  - Player_Pea
+  - Sensor
+  - Snow Pea
+  - Peashooter
+  - Sunflower
+  - Squash
   layers:
   - Default
   - TransparentFX
