@@ -4,17 +4,43 @@ using UnityEngine;
 public class EnemySpawnerManager : MonoBehaviour
 {
 
+    #region Attribute Declaration
+
+    #region Singleton Attribute
+    public static EnemySpawnerManager instance;
+    #endregion
+
+    #region Component Attributes
     private GameObject _enemy;
+    #endregion
 
-    [SerializeField] private int _maxEnemyCount;
+    #region Spawn Attributes
+    private int _maxEnemyCount;
+    private int _spawnCount;
     private int _enemyCount;
-    [SerializeField] private int _spawnCount;
-    [SerializeField] private int _multiplier;
-    [SerializeField] private int _enemyIndex;
-    [SerializeField] private float _timer;
-    private float _delay = 2.5f;
+    public int EnemyCount { get { return _enemyCount; } set { _enemyCount = value; } }
+    private int _enemyIndex;
+    private int _multiplier;
+    private float _timer;
+    private readonly float _delay = 2.5f;
+    #endregion
 
+    #region Boolean Attributes
     private bool _isSpawning;
+    #endregion
+
+    #endregion
+
+    #region Method Definition
+
+    #region Native Methods
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -39,6 +65,21 @@ public class EnemySpawnerManager : MonoBehaviour
         for (int i = 0; i < _spawnCount; i++)
         {
             StartCoroutine(ISpawnEnemy());
+        }
+    }
+    #endregion
+
+    #region User-Defined Methods
+
+    #region UDM (SpawnEnemy)
+    private IEnumerator ISpawnEnemy()
+    {
+        if (!_isSpawning)
+        {
+            _isSpawning = true;
+            SpawnEnemy();
+            yield return new WaitForSeconds(_delay);
+            _isSpawning = false;
         }
     }
 
@@ -71,16 +112,10 @@ public class EnemySpawnerManager : MonoBehaviour
         _enemy.SetActive(true);
         _enemyCount++;
     }
+    #endregion
 
-    private IEnumerator ISpawnEnemy()
-    {
-        if (!_isSpawning)
-        {
-            _isSpawning = true;
-            SpawnEnemy();
-            yield return new WaitForSeconds(_delay);
-            _isSpawning = false;
-        }
-    }
+    #endregion
+
+    #endregion
 
 }

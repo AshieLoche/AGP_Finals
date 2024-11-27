@@ -13,15 +13,11 @@ public class TargetMovement : MonoBehaviour
     private float _rotSpeedBorder, _rotSpeedBorderFlipped, _rotSpeedIndicator;
     #endregion
 
-    #region Boolean Attributes
-    private bool _isFiring = false;
-    #endregion
-
     #endregion
 
     #region Method Definition
 
-    #region Native Method Definition
+    #region Native Methods
     private void Awake()
     {
         PlayerFire.OnTargetMovementEvent.AddListener(HandleMovement);
@@ -42,34 +38,22 @@ public class TargetMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isFiring)
-        {
-            _border.localRotation *= Quaternion.Euler(0f, _rotSpeedBorder, 0f);
-            _borderFlipped.localRotation *= Quaternion.Euler(0f, _rotSpeedBorderFlipped, 0f);
-            _indicator.localRotation *= Quaternion.Euler(0f, _rotSpeedIndicator, 0f);
-        }
-    }
-
-    private void OnDisable()
-    {
-        _isFiring = false;
+        _border.localRotation *= Quaternion.Euler(0f, _rotSpeedBorder, 0f);
+        _borderFlipped.localRotation *= Quaternion.Euler(0f, _rotSpeedBorderFlipped, 0f);
+        _indicator.localRotation *= Quaternion.Euler(0f, _rotSpeedIndicator, 0f);
     }
     #endregion
 
-    #region User-Definged Method Definition
+    #region User-Defined Methods
 
-    #region UDM (Event Handler) Definition
+    #region UDM (Event Handler)
     private void HandleMovement(string targetName, float rotSpeedBorder, float rotSpeedBorderFlipped, float rotSpeedIndicator)
     {
-        if (!_isFiring)
+        if (name == targetName)
         {
-            if (name == targetName)
-            {
-                _rotSpeedBorder = rotSpeedBorder;
-                _rotSpeedBorderFlipped = rotSpeedBorderFlipped;
-                _rotSpeedIndicator = rotSpeedIndicator;
-                _isFiring = true;
-            }
+            _rotSpeedBorder = rotSpeedBorder;
+            _rotSpeedBorderFlipped = rotSpeedBorderFlipped;
+            _rotSpeedIndicator = rotSpeedIndicator;
         }
     }
     #endregion

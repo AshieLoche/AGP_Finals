@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class PlayerFire : MonoBehaviour
 {
@@ -38,21 +36,23 @@ public class PlayerFire : MonoBehaviour
 
     #region Method Definition
 
-    #region Native Method Definition
+    #region Native Methods
     private void Awake()
     {
         PlayerAim.OnFireEvent.AddListener(HandleFire);
     }
     #endregion
 
-    #region UDM (Event Handler) Definition
+    #region User-Defined Methods
+
+    #region UDM (Event Handler)
     private void HandleFire(Vector3 position, float scale, List<float> rotSpeeds, float emissionIntensity)
     {
         StartCoroutine(IFire(position, scale, rotSpeeds, emissionIntensity));
     }
     #endregion
 
-    #region UDM (Fire) Definition
+    #region UDM (Fire)
     private IEnumerator IFire(Vector3 position, float scale, List<float> rotSpeeds, float emissionIntensity)
     {
         if (!_isFiring)
@@ -66,7 +66,7 @@ public class PlayerFire : MonoBehaviour
             _sun.localScale = Vector3.one * scale;
             _sun.localRotation = transform.localRotation;
 
-            _sunModel = _sun.GetComponentsInChildren<Transform>()[1];
+            _sunModel = _sun.GetComponentsInChildren<Transform>().FirstOrDefault(child => child.name == "Sun Model");
             _sunAnim = _sunModel.GetComponent<Animator>();
             _sunAnim.speed = rotSpeeds.Last();
 
@@ -110,8 +110,6 @@ public class PlayerFire : MonoBehaviour
 
             _isFiring = false;
         }
-
-        yield return null;
     }
 
     private void Emission(Material mat, Color color)
@@ -119,6 +117,8 @@ public class PlayerFire : MonoBehaviour
         mat.SetColor("_EmissionColor", color);
         mat.EnableKeyword("_EMISSION");
     }
+    #endregion
+
     #endregion
 
     #endregion

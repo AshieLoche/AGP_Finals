@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region Method Definition
 
-    #region Native Method Definition
+    #region Native Methods
     private void Awake()
     {
         InputManager.OnMoveEvent.AddListener(HandleMove);
@@ -44,9 +44,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = false;
         if (_playerRB == null)
             _playerRB = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        Cursor.visible = false;
     }
 
     private void FixedUpdate()
@@ -56,9 +60,9 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region User-Defined Method Definition
+    #region User-Defined Methods
 
-    #region UDM (Event Handler) Definition
+    #region UDM (Event Handler)
     private void HandleMove(Vector2 dir)
     {
         _moveDir = dir;
@@ -70,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    #region UDM (Movement) Definition
+    #region UDM (Movement)
     private void Move()
     {
         _moveSpeed = _moveDistancce / _moveTime;

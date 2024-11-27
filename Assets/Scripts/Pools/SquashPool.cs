@@ -1,8 +1,17 @@
 public class SquashPool : ObjectPool
 {
 
-    public static SquashPool instance;
+    #region Attribute Declaration 
 
+    #region Singleton  Attribute
+    public static SquashPool instance;
+    #endregion
+
+    #endregion
+
+    #region Method Definition
+
+    #region Native Methods
     protected override void Awake()
     {
         if (instance == null)
@@ -15,5 +24,8 @@ public class SquashPool : ObjectPool
     {
         SetObjects("Squash");
     }
+    #endregion
+
+    #endregion
 
 }

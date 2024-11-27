@@ -181,10 +181,9 @@ GameObject:
   - component: {fileID: -3882406947346662873}
   - component: {fileID: 1989457275764715304}
   - component: {fileID: 7405366370938120199}
-  - component: {fileID: -4177711434578751183}
   m_Layer: 0
   m_Name: Sunflower
-  m_TagString: Buffer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,27 +290,6 @@ MonoBehaviour:
   _sunParent: {fileID: 0}
   _targetParent: {fileID: 0}
   _bulletSpawnMarker: {fileID: 7502948847803491729}
---- !u!135 &-4177711434578751183
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2761891245164145646}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 75
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6949020090134639
 PrefabInstance:
   m_ObjectHideFlags: 0

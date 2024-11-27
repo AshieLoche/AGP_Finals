@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour, GameInputs.IGameplayActions
 
     #region Method Definition
 
-    #region Native Method Definition
+    #region Native Methods
     private void OnEnable()
     {
         if (_gameInputs == null)
@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour, GameInputs.IGameplayActions
     }
     #endregion
 
-    #region Interface Method Definition
+    #region Interface Methods
     public void OnAim(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)

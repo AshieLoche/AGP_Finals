@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,7 +13,7 @@ public class PlayerAim : MonoBehaviour
     private Material _borderMat, _borderFlippedMat, _indicatorMat;
     #endregion
 
-    #region Color Attibutes
+    #region Visibility Attibutes
     private Color _matColor;
     #endregion
 
@@ -68,7 +69,7 @@ public class PlayerAim : MonoBehaviour
 
     #region Method Definition
 
-    #region Native Method Definition
+    #region Native Methods
     private void Awake()
     {
         InputManager.OnAimEvent.AddListener(HandleAim);
@@ -90,9 +91,9 @@ public class PlayerAim : MonoBehaviour
     }
     #endregion
 
-    #region User-Defined Method
+    #region User-Defined Methods
 
-    #region UDM (Event Handler) Definition
+    #region UDM (Event Handler)
     private void HandleAim()
     {
         SetVisibility(1f);
@@ -116,7 +117,7 @@ public class PlayerAim : MonoBehaviour
     }
     #endregion
 
-    #region UDM (Set Up) Definition
+    #region UDM (Set Up)
     private void SetAim(bool status)
     {
         _aimTimer = 0f;
@@ -132,32 +133,24 @@ public class PlayerAim : MonoBehaviour
 
     private void SetComponents()
     {
-        foreach (Transform child in transform.GetComponentsInChildren<Transform>())
+        _target = transform.GetComponentsInChildren<Transform>().FirstOrDefault(child => child.name == "Target");
+
+        foreach (Transform child in _target.GetComponentsInChildren<Transform>())
         {
-            if (child.name == "Target")
+            if (child.name == "Border")
             {
-                _target = child;
-
-                foreach (Transform grandchild in _target.GetComponentsInChildren<Transform>())
-                {
-                    if (grandchild.name == "Border")
-                    {
-                        _border = grandchild;
-                        _borderMat = _border.GetComponent<Renderer>().material;
-                    }
-                    else if (grandchild.name == "Border Flipped")
-                    {
-                        _borderFlipped = grandchild;
-                        _borderFlippedMat = _borderFlipped.GetComponent<Renderer>().material;
-                    }
-                    else if (grandchild.name == "Indicator")
-                    {
-                        _indicator = grandchild;
-                        _indicatorMat = _indicator.GetComponent<Renderer>().material;
-                    }
-                }
-
-                break;
+                _border = child;
+                _borderMat = _border.GetComponent<Renderer>().material;
+            }
+            else if (child.name == "Border Flipped")
+            {
+                _borderFlipped = child;
+                _borderFlippedMat = _borderFlipped.GetComponent<Renderer>().material;
+            }
+            else if (child.name == "Indicator")
+            {
+                _indicator = child;
+                _indicatorMat = _indicator.GetComponent<Renderer>().material;
             }
         }
     }
@@ -179,7 +172,7 @@ public class PlayerAim : MonoBehaviour
         _matColor = _indicatorMat.color;
         _matColor.a = visibility;
         _indicatorMat.color = _matColor;
-        _isVisible = visibility == 1;
+        _isVisible = (visibility == 1);
     }
     #endregion
 
@@ -195,7 +188,7 @@ public class PlayerAim : MonoBehaviour
         #region Position
         _pos = Mathf.Lerp(
             _curPos,
-            (_isAiming) ? _maxPos /*450f*/ : _minPos /*150f*/,
+            (_isAiming) ? _maxPos : _minPos,
             _aimProgress);
         _target.localPosition = new Vector3(0f, -77.5f, _pos);
         #endregion
@@ -203,7 +196,7 @@ public class PlayerAim : MonoBehaviour
         #region Scale
         _scale = Mathf.Lerp(
             _curScale,
-            (_isAiming) ? _minScale /*0.25f*/ : _maxScale /*1f*/,
+            (_isAiming) ? _minScale : _maxScale,
             _aimProgress);
         _target.localScale = Vector3.one * _scale;
         #endregion
@@ -211,19 +204,19 @@ public class PlayerAim : MonoBehaviour
         #region Rotation
         _rotSpeedBorder = Mathf.Lerp(
             _curRotSpeedBorder,
-            (_isAiming) ? _maxRotSpeedBorder /*10f*/ : _minRotSpeedBorder /*1f*/,
+            (_isAiming) ? _maxRotSpeedBorder : _minRotSpeedBorder,
             _aimProgress);
         _border.localRotation *= Quaternion.Euler(0f, _rotSpeedBorder, 0f);
 
         _rotSpeedBorderFlipped = Mathf.Lerp(
             _curRotSpeedBorderFlipped,
-            (_isAiming) ? _maxRotSpeedBorderFlipped /*10f*/ : _minRotSpeedBorderFlipped /*1f*/,
+            (_isAiming) ? _maxRotSpeedBorderFlipped : _minRotSpeedBorderFlipped,
             _aimProgress);
         _borderFlipped.localRotation *= Quaternion.Euler(0f, _rotSpeedBorderFlipped, 0f);
 
         _rotSpeedIndicator = Mathf.Lerp(
             _curRotSpeedIndicator,
-            (_isAiming) ? _maxRotSpeedIndicator /*10f*/ : _minRotSpeedIndicator /*1f*/,
+            (_isAiming) ? _maxRotSpeedIndicator : _minRotSpeedIndicator,
             _aimProgress);
         _indicator.localRotation *= Quaternion.Euler(0f, _rotSpeedIndicator, 0f);
         #endregion
@@ -231,7 +224,7 @@ public class PlayerAim : MonoBehaviour
         #region Emission
         _emissionIntensity = Mathf.Lerp(
             _curEmissionIntensity,
-            (_isAiming) ? _maxEmissionIntensity /*8f*/ : _minEmissionIntensity /*1f*/,
+            (_isAiming) ? _maxEmissionIntensity : _minEmissionIntensity,
             _aimProgress);
 
         _borderMat.SetColor("_EmissionColor", Color.yellow * _emissionIntensity);

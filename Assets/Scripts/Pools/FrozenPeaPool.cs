@@ -1,7 +1,7 @@
-public class SnowPeaPool : ObjectPool
+public class FrozenPeaPool : ObjectPool
 {
 
-    public static SnowPeaPool instance;
+    public static FrozenPeaPool instance;
 
     protected override void Awake()
     {
@@ -13,7 +13,7 @@ public class SnowPeaPool : ObjectPool
 
     protected override void Start()
     {
-        SetObjects("Snow Pea");
+        SetObjects("Pea");
     }
 
 }

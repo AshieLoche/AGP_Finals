@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5015774672518338870}
   - component: {fileID: 5146155931306814571}
-  - component: {fileID: 1846974355209478697}
   - component: {fileID: -7791791247899247666}
+  - component: {fileID: 894129108908161517}
+  - component: {fileID: 1846974355209478697}
   m_Layer: 0
   m_Name: Snow Pea
   m_TagString: Buffer
@@ -63,18 +64,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 126
   m_CollisionDetection: 1
---- !u!114 &1846974355209478697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1659388051914932324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94c12818ecfe8624e99ea0a30e73dcc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &-7791791247899247666
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -96,6 +85,30 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 150
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &894129108908161517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659388051914932324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f621de0d63948e346b73f6ae03cbc16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1846974355209478697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659388051914932324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c12818ecfe8624e99ea0a30e73dcc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3691351658205859674
 GameObject:
   m_ObjectHideFlags: 0
