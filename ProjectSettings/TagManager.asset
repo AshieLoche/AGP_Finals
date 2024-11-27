@@ -13,6 +13,8 @@ TagManager:
   - Peashooter
   - Sunflower
   - Squash
+  - Buffer
+  - Indicator
   layers:
   - Default
   - TransparentFX

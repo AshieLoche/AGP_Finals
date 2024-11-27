@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class PlayerFire : MonoBehaviour
 {
@@ -21,6 +23,10 @@ public class PlayerFire : MonoBehaviour
 
     private Transform _target;
     private Material _borderMat, _borderFlippedMat, _indicatorMat;
+    #endregion
+
+    #region Boolean Attributes
+    private bool _isFiring;
     #endregion
 
     #region Event Attributes
@@ -42,60 +48,76 @@ public class PlayerFire : MonoBehaviour
     #region UDM (Event Handler) Definition
     private void HandleFire(Vector3 position, float scale, List<float> rotSpeeds, float emissionIntensity)
     {
-        #region Sun
-        _sun = SunPool.instance.GetSun().transform;
+        StartCoroutine(IFire(position, scale, rotSpeeds, emissionIntensity));
+    }
+    #endregion
 
-        _sun.position = _bulletSpawnMarker.position;
-        _sun.localScale = Vector3.one * scale;
-        _sun.localRotation = transform.localRotation;
-
-        _sunModel = _sun.GetComponentsInChildren<Transform>()[1];
-        _sunAnim = _sunModel.GetComponent<Animator>();
-        _sunAnim.speed = rotSpeeds.Last();
-
-        foreach (Renderer sunRenderer in _sunModel.GetComponentsInChildren<Renderer>())
+    #region UDM (Fire) Definition
+    private IEnumerator IFire(Vector3 position, float scale, List<float> rotSpeeds, float emissionIntensity)
+    {
+        if (!_isFiring)
         {
-            _sunMat = sunRenderer.material;
-            _sunMat.SetColor("_EmissionColor", Color.white * emissionIntensity);
-            _sunMat.EnableKeyword("_EMISSION");
+            _isFiring = true;
+
+            #region Sun
+            _sun = SunPool.instance.GetObject().transform;
+
+            _sun.position = _bulletSpawnMarker.position;
+            _sun.localScale = Vector3.one * scale;
+            _sun.localRotation = transform.localRotation;
+
+            _sunModel = _sun.GetComponentsInChildren<Transform>()[1];
+            _sunAnim = _sunModel.GetComponent<Animator>();
+            _sunAnim.speed = rotSpeeds.Last();
+
+            foreach (Renderer sunRenderer in _sunModel.GetComponentsInChildren<Renderer>())
+            {
+                Emission(sunRenderer.material, emissionIntensity * Color.white);
+            }
+
+            _sun.gameObject.SetActive(true);
+            #endregion
+
+            #region Target
+            _target = TargetPool.instance.GetObject().transform;
+
+            _target.position = position;
+            _target.localScale = Vector3.one * scale;
+
+            foreach (Renderer child in _target.GetComponentsInChildren<Renderer>())
+            {
+                if (child.name == "Border" || child.name == "Border Flipped" || child.name == "Indicator")
+                {
+                    Emission(child.GetComponent<Renderer>().material, emissionIntensity * child.name switch
+                    {
+                        "Border" => Color.yellow,
+                        "Border Flipped" => Color.red,
+                        "Indicator" => Color.white,
+                        _ => Color.white,
+                    });
+                }
+            }
+
+            _target.gameObject.SetActive(true);
+            #endregion
+
+            #region Events
+            OnSuntMovementEvent.Invoke(_sun.name, _target.position);
+            OnTargetMovementEvent.Invoke(_target.name, rotSpeeds[0], rotSpeeds[1], rotSpeeds[2]);
+            #endregion
+
+            yield return new WaitForSeconds(0.5f);
+
+            _isFiring = false;
         }
 
-        _sun.gameObject.SetActive(true);
-        #endregion
+        yield return null;
+    }
 
-        #region Target
-        _target = TargetPool.instance.GetTarget().transform;
-
-        _target.position = position;
-        _target.localScale = Vector3.one * scale;
-
-        foreach (Renderer child in _target.GetComponentsInChildren<Renderer>())
-        {
-            if (child.name == "Border")
-            {
-                _borderMat = child.GetComponent<Renderer>().material;
-                _borderMat.SetColor("_EmissionColor", Color.yellow * emissionIntensity);
-                _borderMat.EnableKeyword("_EMISSION");
-            }
-            else if (child.name == "Border Flipped")
-            {
-                _borderFlippedMat = child.GetComponent<Renderer>().material;
-                _borderFlippedMat.SetColor("_EmissionColor", Color.red * emissionIntensity);
-                _borderFlippedMat.EnableKeyword("_EMISSION");
-            }
-            else if (child.name == "Indicator")
-            {
-                _indicatorMat = child.GetComponent<Renderer>().material;
-                _indicatorMat.SetColor("_EmissionColor", Color.white * emissionIntensity);
-                _indicatorMat.EnableKeyword("_EMISSION");
-            }
-        }
-
-        _target.gameObject.SetActive(true);
-        #endregion
-
-        OnSuntMovementEvent.Invoke(_sun.name, _target.position);
-        OnTargetMovementEvent.Invoke(_target.name, rotSpeeds[0], rotSpeeds[1], rotSpeeds[2]);
+    private void Emission(Material mat, Color color)
+    {
+        mat.SetColor("_EmissionColor", color);
+        mat.EnableKeyword("_EMISSION");
     }
     #endregion
 

@@ -1,18 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SunPool : MonoBehaviour
+public class SunPool : ObjectPool
 {
 
     public static SunPool instance;
 
-    [SerializeField] private GameObject _sunPrefab;
-
-    private List<GameObject> _sunPool = new();
-    private int poolAmount = 10;
-    private GameObject _sunClone;
-
-    private void Awake()
+    protected override void Awake()
     {
         if (instance == null)
         {
@@ -20,28 +11,9 @@ public class SunPool : MonoBehaviour
         }
     }
 
-    private void Start()
+    protected override void Start()
     {
-        for (int i = 1; i <= poolAmount; i++)
-        {
-            _sunClone = Instantiate(_sunPrefab, transform);
-            _sunClone.SetActive(false);
-            _sunClone.name = $"Sun {i}";
-            _sunPool.Add(_sunClone);
-        }
-    }
-
-    public GameObject GetSun()
-    {
-        for (int i = 0; i < _sunPool.Count; i++)
-        {
-            if (!_sunPool[i].activeInHierarchy)
-            {
-                return _sunPool[i];
-            }
-        }
-
-        return null;
+        SetObjects("Sun");
     }
 
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class SunCollision : MonoBehaviour
@@ -13,10 +14,18 @@ public class SunCollision : MonoBehaviour
 
             if(name.Split(" ")[1] == _target.name.Split(" ")[1])
             {
-                _target.gameObject.SetActive(false);
-                gameObject.SetActive(false);
+                StartCoroutine(Deactivate());
             }
         }
+    }
+
+    private IEnumerator Deactivate()
+    {
+        _target.GetChild(2).GetComponent<SphereCollider>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        _target.GetChild(2).GetComponent<SphereCollider>().enabled = false;
+        _target.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 }
