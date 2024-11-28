@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1532681495249983216}
   - component: {fileID: 6480892793564144265}
   - component: {fileID: 3446148679384082923}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,6 +159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Pea Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545350942434038345, guid: 26f393bc2f448e2478e8524bf828cde7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8545350942434038345, guid: 26f393bc2f448e2478e8524bf828cde7,
         type: 3}

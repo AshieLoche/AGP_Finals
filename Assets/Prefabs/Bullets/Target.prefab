@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6290495307978415186}
   - component: {fileID: 4143517080268932780}
   - component: {fileID: 9216931789475069698}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Border Flipped
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4875448052206331892}
   - component: {fileID: 3298058534026213310}
   - component: {fileID: 4765007152645432373}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5614832874486398621}
   - component: {fileID: 1605290160511757907}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sensor
   m_TagString: Sensor
   m_Icon: {fileID: 0}
@@ -229,7 +229,7 @@ GameObject:
   m_Component:
   - component: {fileID: 143513613719289466}
   - component: {fileID: 3949639380495354354}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 8744498817099765004}
   - component: {fileID: 4019633858924465676}
   - component: {fileID: 882680433499519955}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Indicator
   m_TagString: Indicator
   m_Icon: {fileID: 0}

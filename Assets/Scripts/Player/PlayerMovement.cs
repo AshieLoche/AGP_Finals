@@ -22,11 +22,12 @@ public class PlayerMovement : MonoBehaviour
 
     #region Rotational Movement Attributes
     [Header("Rotational Movement")]
-    [SerializeField] private float _rotationAngle;
-    [SerializeField] private float _rotationSmoothness;
+    [SerializeField] private float _rotAngle;
+    [SerializeField] private float _rotSmoothness;
 
-    private Vector2 _rotationDir;
-    private Quaternion _rotationTarget;
+    private Vector2 _rotDir;
+    private Quaternion _rotTarget;
+    private float _rotSpeed;
     #endregion
 
     #endregion
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         InputManager.OnMoveEvent.AddListener(HandleMove);
-        InputManager.OnRotateEvent.AddListener(HandleRotation);
+        InputManager.OnRotateEvent.AddListener(HandleRotate);
     }
 
     private void Start()
@@ -68,9 +69,9 @@ public class PlayerMovement : MonoBehaviour
         _moveDir = dir;
     }
 
-    private void HandleRotation(Vector2 dir)
+    private void HandleRotate(Vector2 dir)
     {
-        _rotationDir = dir;
+        _rotDir = dir;
     }
     #endregion
 
@@ -83,8 +84,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Rotate()
     {
-        _rotationTarget = Quaternion.Euler(0f, _playerRB.rotation.eulerAngles.y + (_rotationDir.x * _rotationAngle), 0f);
-        _playerRB.rotation = Quaternion.Slerp(_playerRB.rotation, _rotationTarget, Time.deltaTime * _rotationSmoothness);
+        _rotSpeed = _playerRB.rotation.eulerAngles.y + (_rotDir.x * _rotAngle);
+        _rotTarget = Quaternion.Euler(0f, _rotSpeed, 0f);
+        _playerRB.rotation = Quaternion.Slerp(_playerRB.rotation, _rotTarget, Time.deltaTime * _rotSmoothness);
     }
     #endregion
 

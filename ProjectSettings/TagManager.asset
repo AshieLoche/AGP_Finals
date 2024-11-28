@@ -15,16 +15,18 @@ TagManager:
   - Squash
   - Buffer
   - Indicator
+  - Player_Pea
+  - Enemy_Pea
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Terrain
+  - Enemy
+  - Bullet
   - 
   - 
   - 

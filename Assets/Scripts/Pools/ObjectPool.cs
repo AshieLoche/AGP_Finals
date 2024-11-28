@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class ObjectPool : MonoBehaviour
@@ -11,6 +13,7 @@ public abstract class ObjectPool : MonoBehaviour
     [SerializeField] private GameObject _objectPrefab;
 
     private readonly List<GameObject> _objectPool = new();
+    private List<GameObject> _inactivePool = new();
     private GameObject _objectClone;
     #endregion
 
@@ -34,12 +37,12 @@ public abstract class ObjectPool : MonoBehaviour
     #region UDM (Set Up)
     protected void SetObjects(string name)
     {
-        for (int i = 0; i < _poolAmount;)
+        for (int i = 1; i <= _poolAmount; i++)
         {
             _objectClone = Instantiate(_objectPrefab, transform);
-            _objectClone.SetActive(false);
-            _objectClone.name = $"{name} {++i}";
-            if (name != "Sun" && name != "Target")
+            _objectClone.SetActive(name == "Sunflower");
+            _objectClone.name = (name == "Sunflower") ? name : $"{name} {i}";
+            if (name == "Peashooter" || name == "Snow Pea" || name == "Squash")
             {
                 _objectClone.GetComponent<SphereCollider>().radius = Random.Range(75, 150);
             }
@@ -49,14 +52,22 @@ public abstract class ObjectPool : MonoBehaviour
     #endregion
 
     #region UDM (Object)
-    public GameObject GetObject()
+
+    public GameObject GetObject(string name)
     {
-        for (int i = 0; i < _objectPool.Count; i++)
+        if (name == "Player")
         {
-            if (!_objectPool[i].activeInHierarchy)
-            {
-                return _objectPool[i];
-            }
+            return _objectPool.Last();
+        }
+        else if (name == "Enemy")
+        {
+            _inactivePool = _objectPool.Where(obj => !obj.activeInHierarchy).ToList();
+
+            return _inactivePool[Random.Range(0, _inactivePool.Count)];
+        }
+        else if (name == "Bullet")
+        {
+             return _objectPool.FirstOrDefault(obj => !obj.activeInHierarchy);
         }
 
         return null;

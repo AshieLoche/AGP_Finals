@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1276540791444841790}
   - component: {fileID: 8261113438690998987}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Frozen Pea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,6 +76,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Frozen Pea Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773517988793097147, guid: 87e3de7369a4ea94e9b9349cdcfeb297,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7093007416629743261, guid: 87e3de7369a4ea94e9b9349cdcfeb297,
         type: 3}

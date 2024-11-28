@@ -10,17 +10,11 @@ public class PlayerFire : MonoBehaviour
     #region Attribute Declaration
 
     #region Component Attributes
-    [Header("Components")]
-    [SerializeField] private Transform _sunParent;
-    [SerializeField] private Transform _targetParent;
-    [SerializeField] private Transform _bulletSpawnMarker;
-
+    private Transform _bulletSpawnMarker;
     private Transform _sun, _sunModel;
     private Animator _sunAnim;
-    private Material _sunMat;
 
     private Transform _target;
-    private Material _borderMat, _borderFlippedMat, _indicatorMat;
     #endregion
 
     #region Boolean Attributes
@@ -41,6 +35,11 @@ public class PlayerFire : MonoBehaviour
     {
         PlayerAim.OnFireEvent.AddListener(HandleFire);
     }
+
+    private void Start()
+    {
+        _bulletSpawnMarker = GetComponentsInChildren<Transform>().FirstOrDefault(child => child.name == "Bullet Spawn Marker");
+    }
     #endregion
 
     #region User-Defined Methods
@@ -60,7 +59,7 @@ public class PlayerFire : MonoBehaviour
             _isFiring = true;
 
             #region Sun
-            _sun = SunPool.instance.GetObject().transform;
+            _sun = SunPool.instance.GetObject("Bullet").transform;
 
             _sun.position = _bulletSpawnMarker.position;
             _sun.localScale = Vector3.one * scale;
@@ -79,7 +78,7 @@ public class PlayerFire : MonoBehaviour
             #endregion
 
             #region Target
-            _target = TargetPool.instance.GetObject().transform;
+            _target = TargetPool.instance.GetObject("Bullet").transform;
 
             _target.position = position;
             _target.localScale = Vector3.one * scale;

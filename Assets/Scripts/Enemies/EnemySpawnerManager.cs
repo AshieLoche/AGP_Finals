@@ -72,6 +72,7 @@ public class EnemySpawnerManager : MonoBehaviour
     #region User-Defined Methods
 
     #region UDM (SpawnEnemy)
+
     private IEnumerator ISpawnEnemy()
     {
         if (!_isSpawning)
@@ -90,13 +91,13 @@ public class EnemySpawnerManager : MonoBehaviour
             switch (Random.Range(0, _enemyIndex))
             {
                 case 0:
-                    _enemy = PeashooterPool.instance.GetObject();
+                    _enemy = PeashooterPool.instance.GetObject("Enemy");
                     break;
                 case 1:
-                    _enemy = SnowPeaPool.instance.GetObject();
+                    _enemy = SnowPeaPool.instance.GetObject("Enemy");
                     break;
                 case 2:
-                    _enemy = SquashPool.instance.GetObject();
+                    _enemy = SquashPool.instance.GetObject("Enemy");
                     break;
             }
 
