@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Transactions;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -25,7 +27,9 @@ public class EnemyMovement : MonoBehaviour
     private float _rotDir, _rotSpeed;
     private Quaternion _rotTarget;
 
-    private RaycastHit _hit;
+    private RaycastHit[] _hits;
+
+    public static UnityEvent OnSeePlayerEvent = new();
 
     private void Start()
     {
@@ -33,24 +37,17 @@ public class EnemyMovement : MonoBehaviour
         _player = SunflowerPool.instance.GetObject("Player").transform;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Rotate();
     }
 
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawLine(_enemyPos, _playerPos);
-
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(_enemyPos + (transform.forward * 47.5f), _direction);
-    }
-
     private void Rotate()
     {
-        if (InPeripheral() && !PlayerHidden())
+        if (InPeripheral() && InSight())
         {
+
+            Debug.DrawRay(_enemyPos, _directionNormalized * _sightLength, Color.red, 0.25f);
             _crossProduct = PhysicsCalculationManager.instance.GetCrossProduct(_origin, _direction);
 
             _crossProductMagnitude = PhysicsCalculationManager.instance.GetMagnitude(_crossProduct);
@@ -66,6 +63,8 @@ public class EnemyMovement : MonoBehaviour
             _rotTarget = Quaternion.Euler(0f, _rotSpeed, 0f);
 
             _enemyRB.rotation = Quaternion.Slerp(_enemyRB.rotation, _rotTarget, Time.deltaTime * _rotSmoothness);
+
+            OnSeePlayerEvent.Invoke();
         }
         else
         {
@@ -92,50 +91,14 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    private bool PlayerHidden()
+    private bool InSight()
     {
-        //if (Physics.Raycast(_enemyPos, _direction, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Player")))
-        //{
-        //    Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer));
-        //    Debug.DrawRay(_enemyPos, _direction, Color.red, 1f);
-        //    return LayerMask.LayerToName(hit.collider.gameObject.layer) != "Player" &&
-        //        LayerMask.LayerToName(hit.collider.gameObject.layer) != "Bullet";
+        _hits = Physics.RaycastAll(_enemyPos, _direction, _sightLength, LayerMask.GetMask("Player", "Enemy", "Bullet", "Terrain"));
 
-        //}
+        if (_hits.Length >= 2)
+            return LayerMask.LayerToName(_hits[1].collider.gameObject.layer) == "Player";
 
-        _hit = Physics.RaycastAll(_enemyPos, _direction, Mathf.Infinity,
-    LayerMask.GetMask("Player", "Enemy", "Terrain", "Bullet"))[0];
-
-        Debug.Log($"First: {LayerMask.LayerToName(_hit.collider.gameObject.layer)}");
-
-        _hit = Physics.RaycastAll(_enemyPos, _direction, Mathf.Infinity,
-    LayerMask.GetMask("Player", "Enemy", "Terrain", "Bullet"))[1];
-
-        Debug.Log($"Second: {LayerMask.LayerToName(_hit.collider.gameObject.layer)}");
-
-        _hit = Physics.RaycastAll(_enemyPos, _direction, Mathf.Infinity,
-    LayerMask.GetMask("Player", "Enemy", "Terrain", "Bullet"))[1];
-
-        return LayerMask.LayerToName(_hit.collider.gameObject.layer) != "Player" &&  LayerMask.LayerToName(_hit.collider.gameObject.layer) != "Bullet";
-
-    //    if (Physics.RaycastAll(_enemyPos, _direction, Mathf.Infinity,
-    //LayerMask.GetMask("Player", "Enemy", "Terrain", "Bullet"))[1].collider)
-    //    {
-    //        // Check if the hit object is not the origin object
-    //        if (hit.collider.gameObject != this.gameObject)
-    //        {
-    //            Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer));
-    //            Debug.DrawRay(_enemyPos, _direction, Color.red, 1f);
-
-    //            // Return true if the hit object is not "Player" or "Bullet"
-    //            return LayerMask.LayerToName(hit.collider.gameObject.layer) != "Player" &&
-    //                   LayerMask.LayerToName(hit.collider.gameObject.layer) != "Bullet";
-    //        }
-    //    }
-
-        //return false;
-
-        //Physics.spher
+        return false;
     }
 
 }

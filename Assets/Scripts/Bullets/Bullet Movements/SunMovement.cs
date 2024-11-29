@@ -27,15 +27,17 @@ public class SunMovement : MonoBehaviour
     private void Awake()
     {
         PlayerFire.OnSuntMovementEvent.AddListener(HandleMovement);
+        _sunRB = GetComponent<Rigidbody>();
     }
     
     private void OnEnable()
     {
-        _sunRB = GetComponent<Rigidbody>();
-        _sunRB.isKinematic = false;
-        _sunRB.useGravity = true;
 
-        _customGravity = Physics.gravity.y * _gravityMultiplier;
+    }
+
+    private void Start()
+    {
+
     }
 
     private void FixedUpdate()
@@ -45,9 +47,7 @@ public class SunMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        _sunRB.useGravity = false;
-        _sunRB.velocity = Vector3.zero;
-        _sunRB.isKinematic = true;
+        //_sunRB.velocity = Vector3.zero;
     }
     #endregion
 
@@ -58,6 +58,9 @@ public class SunMovement : MonoBehaviour
     {
         if (name == sunName)
         {
+            _customGravity = Physics.gravity.y * _gravityMultiplier;
+            _velocity = 0f;
+            _sunRB.velocity = Vector3.zero;
             Move(targetPos);
         }
     }

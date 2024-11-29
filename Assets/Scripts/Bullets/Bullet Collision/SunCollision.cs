@@ -17,15 +17,17 @@ public class SunCollision : MonoBehaviour
     #region Method Definition
 
     #region Native Methods
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Sensor"))
         {
-            _target = other.transform.parent;
-
-            if (name.Split(" ")[1] == _target.name.Split(" ")[1])
+            _target = other.transform;
+            Debug.Log(_target.name);
+            if (name.Split(" ")[1] == other.name.Split(" ")[1])
             {
-                StartCoroutine(Deactivate());
+                StartCoroutine(Deactivate(0.5f));
             }
         }
     }
@@ -34,12 +36,12 @@ public class SunCollision : MonoBehaviour
     #region User-Defined Methods
 
     #region UDM (Deactivate)
-    private IEnumerator Deactivate()
+    private IEnumerator Deactivate(float delay)
     {
         _targetCollider = _target.GetComponentsInChildren<SphereCollider>().FirstOrDefault(collider => collider.name == "Indicator");
 
         _targetCollider.enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(delay);
         _targetCollider.enabled = false;
         _target.gameObject.SetActive(false);
         gameObject.SetActive(false);

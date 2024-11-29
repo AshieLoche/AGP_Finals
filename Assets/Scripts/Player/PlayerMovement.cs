@@ -52,12 +52,12 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Cursor.visible = false;
+        Rotate();
     }
 
     private void FixedUpdate()
     {
         Move();
-        Rotate();
     }
     #endregion
 
