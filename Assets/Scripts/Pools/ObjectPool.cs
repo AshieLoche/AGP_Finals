@@ -40,6 +40,7 @@ public abstract class ObjectPool : MonoBehaviour
         for (int i = 1; i <= _poolAmount; i++)
         {
             _objectClone = Instantiate(_objectPrefab, transform);
+            _objectClone.transform.rotation = Quaternion.Euler(0f, Random.Range(0, 360), 0f);
             _objectClone.SetActive(name == "Sunflower");
             _objectClone.name = (name == "Sunflower") ? name : $"{name} {i}";
             if (name == "Peashooter" || name == "Snow Pea" || name == "Squash")

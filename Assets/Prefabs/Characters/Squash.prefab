@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6044701538444764068}
   - component: {fileID: 434273695091101069}
   - component: {fileID: 9164915679699546276}
+  - component: {fileID: -3888360368452925088}
   - component: {fileID: 4018198335920474003}
   m_Layer: 7
   m_Name: Squash
@@ -99,6 +100,22 @@ MonoBehaviour:
   _sightLength: 500
   _rotAngle: 25
   _rotSmoothness: 10
+--- !u!114 &-3888360368452925088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4738305034770155982}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5130652b59c8cc94996e226bdc794e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reachLength: 400
+  _maxHeight: 250
+  _gravityMultiplier: 50
+  _launchAngle: 45
 --- !u!114 &4018198335920474003
 MonoBehaviour:
   m_ObjectHideFlags: 0

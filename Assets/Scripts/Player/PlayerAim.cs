@@ -13,10 +13,6 @@ public class PlayerAim : MonoBehaviour
     private Material _borderMat, _borderFlippedMat, _indicatorMat;
     #endregion
 
-    #region Visibility Attibutes
-    private Color _matColor;
-    #endregion
-
     #region Aim Attributes
     [Header("Aim Time")]
     [SerializeField] private float _aimTime;
@@ -163,16 +159,22 @@ public class PlayerAim : MonoBehaviour
 
     private void SetVisibility(float visibility)
     {
-        _matColor = _borderMat.color;
-        _matColor.a = visibility;
-        _borderMat.color = _matColor;
-        _matColor = _borderFlippedMat.color;
-        _matColor.a = visibility;
-        _borderFlippedMat.color = _matColor;
-        _matColor = _indicatorMat.color;
-        _matColor.a = visibility;
-        _indicatorMat.color = _matColor;
-        _isVisible = (visibility == 1);
+        _isVisible = true;
+        SetVisibility("Border", _borderMat.color, visibility);
+        SetVisibility("Border Flipped", _borderFlippedMat.color, visibility);
+        SetVisibility("Indicator", _indicatorMat.color, visibility);
+    }
+
+    private void SetVisibility(string mat, Color matColor, float visibility)
+    {
+        matColor.a = visibility;
+
+        if (mat == "Border")
+            _borderMat.color = matColor;
+        else if (mat == "Border Flipped")
+            _borderFlippedMat.color = matColor;
+        else if (mat == "Indicator")
+            _indicatorMat.color = matColor;
     }
     #endregion
 

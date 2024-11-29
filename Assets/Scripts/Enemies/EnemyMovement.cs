@@ -29,7 +29,7 @@ public class EnemyMovement : MonoBehaviour
 
     private RaycastHit[] _hits;
 
-    public static UnityEvent OnSeePlayerEvent = new();
+    public static UnityEvent<string> OnSeePlayerEvent = new();
 
     private void Start()
     {
@@ -46,7 +46,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (InPeripheral() && InSight())
         {
-
+            //Debug.Log("Drawing Ray");
             Debug.DrawRay(_enemyPos, _directionNormalized * _sightLength, Color.red, 0.25f);
             _crossProduct = PhysicsCalculationManager.instance.GetCrossProduct(_origin, _direction);
 
@@ -64,7 +64,7 @@ public class EnemyMovement : MonoBehaviour
 
             _enemyRB.rotation = Quaternion.Slerp(_enemyRB.rotation, _rotTarget, Time.deltaTime * _rotSmoothness);
 
-            OnSeePlayerEvent.Invoke();
+            OnSeePlayerEvent.Invoke(name);
         }
         else
         {

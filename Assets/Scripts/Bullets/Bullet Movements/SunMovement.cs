@@ -29,25 +29,10 @@ public class SunMovement : MonoBehaviour
         PlayerFire.OnSuntMovementEvent.AddListener(HandleMovement);
         _sunRB = GetComponent<Rigidbody>();
     }
-    
-    private void OnEnable()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
 
     private void FixedUpdate()
     {
         _sunRB.AddForce(Vector3.up * _customGravity, ForceMode.Acceleration);
-    }
-
-    private void OnDisable()
-    {
-        //_sunRB.velocity = Vector3.zero;
     }
     #endregion
 

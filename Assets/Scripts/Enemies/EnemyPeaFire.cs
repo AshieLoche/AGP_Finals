@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
 
     private Transform _bullet, _bulletSpawnMarker;
-    private Rigidbody _bulletRB;
-    [SerializeField] private float _delay;
+    [SerializeField] private float _reachLength;
     private bool _isFiring = false;
 
     private readonly Dictionary<string, Func<Transform>> _bulletPools = new()
@@ -28,12 +28,27 @@ public class EnemyAttack : MonoBehaviour
         _bulletSpawnMarker = GetComponentsInChildren<Transform>().FirstOrDefault(child => child.name == "Bullet Spawn Marker");
     }
 
-    private void HandleSeePlayer()
+    private void HandleSeePlayer(string enemyName)
     {
-        StartCoroutine(IFireBullet());
+        if (name == enemyName)
+            FireBullet();
     }
 
-    private IEnumerator IFireBullet()
+    private void FireBullet()
+    {
+        if (InReach())
+            StartCoroutine(IFireBullet(1.5f));
+    }
+
+    private bool InReach()
+    {
+        Debug.Log("Drawing Ray");
+        Debug.DrawRay(transform.position, transform.forward * _reachLength, Color.blue, 0.25f);
+
+        return Physics.Raycast(transform.position, transform.forward, _reachLength, LayerMask.GetMask("Player"));
+    }
+
+    private IEnumerator IFireBullet(float delay)
     {
         if (!_isFiring)
         {
@@ -42,10 +57,11 @@ public class EnemyAttack : MonoBehaviour
             _bullet = _bulletPools.FirstOrDefault(kvp => name.Contains(kvp.Key)).Value?.Invoke();
 
             _bullet.position = _bulletSpawnMarker.position;
+            _bullet.rotation = transform.rotation;
 
             _bullet.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(_delay);
+            yield return new WaitForSeconds(delay);
 
             _isFiring = false;
         }
